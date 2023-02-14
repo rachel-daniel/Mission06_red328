@@ -12,19 +12,19 @@ namespace Mission06_red328.Models
         [Required]
         public int MovieId { get; set; }
         
-        [Required]
+        [Required(ErrorMessage = "Category Required")]
         public string Category { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Title Required")]
         public string Title { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Year Required")]
         public string Year { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Director Required")]
         public string Director { get; set; }
 
-        [Required]
+        [Required(ErrorMessage = "Rating Required")]
         public string Rating { get; set; }
 
         public bool Edited { get; set; }
