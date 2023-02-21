@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Mission06_red328.Models;
 using System;
@@ -11,14 +12,11 @@ namespace Mission06_red328.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
         private MovieContext movieContext { get; set; }
 
         // Constructor
-        public HomeController(ILogger<HomeController> logger, MovieContext someName)
+        public HomeController(MovieContext someName)
         {
-            _logger = logger;
             movieContext = someName; // get the information from our context file into the controller
         }
 
@@ -33,30 +31,75 @@ namespace Mission06_red328.Controllers
         }
 
         [HttpGet]
-        public IActionResult Movies()
+        public IActionResult MovieForm()
         {
+            ViewBag.Categories = movieContext.Categories.ToList();
+            
             return View();
         }
 
         [HttpPost]
-        public IActionResult Movies(AddMovie am)
+        public IActionResult MovieForm(AddMovie am)
         {
-            // make an entry in the database
-            movieContext.Add(am);
+            if (ModelState.IsValid)
+            {
+                // make an entry in the database
+                movieContext.Add(am);
+                movieContext.SaveChanges();
+
+                return View("Confirmation", am);
+            }
+            else
+            {
+                ViewBag.Categories = movieContext.Categories.ToList(); // create category class
+                return View(am);
+            }
+        }
+        
+        public IActionResult DisplayMovie()
+        {
+            var movies = movieContext.Movies
+                .Include(x => x.Category)
+                .OrderBy(x => x.CategoryID)
+                .ToList();
+
+            return View(movies);
+        }
+
+        [HttpGet]
+        public IActionResult Edit(int movieid)
+        {
+            ViewBag.Categories = movieContext.Categories.ToList();
+
+            var movieResponse = movieContext.Movies.Single(x => x.MovieId == movieid);
+
+            return View("MovieForm", movieResponse);
+        }
+
+        [HttpPost]
+        public IActionResult Edit (AddMovie am)
+        {
+            movieContext.Update(am);
             movieContext.SaveChanges();
 
-            return View("Confirmation", am);
+            return RedirectToAction("DisplayMovies");
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        public IActionResult Delete(int movieid)
         {
-            return View();
+            var movieResponse = movieContext.Movies.Single(x => x.MovieId == movieid);
+
+            return View(movieResponse);
         }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
+        [HttpPost]
+        public IActionResult Delete(AddMovie am)
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            movieContext.Movies.Remove(am);
+            movieContext.SaveChanges();
+
+            return RedirectToAction("DisplayMovies");
         }
     }
 }

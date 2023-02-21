@@ -11,9 +11,12 @@ namespace Mission06_red328.Models
         [Key]
         [Required]
         public int MovieId { get; set; }
-        
+
+        // Foregin Key Relationship
         [Required(ErrorMessage = "Category Required")]
-        public string Category { get; set; }
+        public int CategoryID { get; set; }
+        public Category Category { get; set; }
+
 
         [Required(ErrorMessage = "Title Required")]
         public string Title { get; set; }

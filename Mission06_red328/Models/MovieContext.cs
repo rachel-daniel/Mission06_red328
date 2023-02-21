@@ -14,16 +14,28 @@ namespace Mission06_red328.Models
             //leave blank for now
         }
         public DbSet<AddMovie> Movies { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
 
         // put some data entries into the model
         protected override void OnModelCreating(ModelBuilder mb)
         {
+            mb.Entity<Category>().HasData(
+                new Category { CategoryID=1, CategoryName="Action/Adventure"},
+                new Category { CategoryID=2, CategoryName="Comedy"},
+                new Category { CategoryID=3, CategoryName="Drama"},
+                new Category { CategoryID=4, CategoryName="Family"},
+                new Category { CategoryID=5, CategoryName="Horror"},
+                new Category { CategoryID=6, CategoryName= "Miscellaneous" },
+                new Category { CategoryID=7, CategoryName="Television"},
+                new Category { CategoryID=8, CategoryName="VHS"}
+                );
+            
             mb.Entity<AddMovie>().HasData(
                 new AddMovie
                 {
                     MovieId = 1,
-                    Category = "Comedy",
+                    CategoryID = 2,
                     Title = "Crazy Rich Asians",
                     Year = "2018",
                     Director = "John M. Chu",
@@ -32,7 +44,7 @@ namespace Mission06_red328.Models
                 new AddMovie
                 {
                     MovieId = 2,
-                    Category = "Comedy",
+                    CategoryID = 2,
                     Title = "The Proposal",
                     Year = "2009",
                     Director = "Anne Fletcher",
@@ -41,7 +53,7 @@ namespace Mission06_red328.Models
                 new AddMovie
                 {
                     MovieId = 3,
-                    Category = "Family",
+                    CategoryID = 4,
                     Title = "The Sound of Music",
                     Year = "1965",
                     Director = "Robert Wise",
