@@ -13,7 +13,7 @@ namespace Mission06_red328.Models
         public int MovieId { get; set; }
 
         // Foregin Key Relationship
-        [Required(ErrorMessage = "Category Required")]
+        [Required(ErrorMessage="Category Required")]
         public int CategoryID { get; set; }
         public Category Category { get; set; }
 

@@ -9,13 +9,15 @@
     <form method="post">
         @*print out the errors if something goes wrong*@
         <div asp-validation-summary="All"></div>
+        
+        <input type="hidden" asp-for="MovieId"/>
 
         <label asp-for="CategoryID">Category</label>
         <select asp-for="CategoryID">
             <option value="">Select a Category</option>
             @foreach (Category c in ViewBag.Categories)
             {
-                <option value="c.CategoryID">@c.CategoryName</option>
+                <option value="@c.CategoryID">@c.CategoryName</option>
             }
         </select><br />
 
@@ -30,6 +32,7 @@
 
         <label asp-for="Rating">Rating</label>
         <select asp-for="Rating">
+            <option value=""></option>
             <option value="G">G</option>
             <option value="PG">PG</option>
             <option value="PG-13">PG-13</option>

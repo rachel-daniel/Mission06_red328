@@ -38,6 +38,7 @@ namespace Mission06_red328.Controllers
             return View();
         }
 
+        // Create a new movie
         [HttpPost]
         public IActionResult MovieForm(AddMovie am)
         {
@@ -47,7 +48,8 @@ namespace Mission06_red328.Controllers
                 movieContext.Add(am);
                 movieContext.SaveChanges();
 
-                return View("Confirmation", am);
+                //return View("Confirmation", am);
+                return View("Confirmation", new AddMovie());
             }
             else
             {
@@ -56,7 +58,7 @@ namespace Mission06_red328.Controllers
             }
         }
         
-        public IActionResult DisplayMovie()
+        public IActionResult DisplayMovies()
         {
             var movies = movieContext.Movies
                 .Include(x => x.Category)
