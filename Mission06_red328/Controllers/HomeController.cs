@@ -35,7 +35,7 @@ namespace Mission06_red328.Controllers
         {
             ViewBag.Categories = movieContext.Categories.ToList();
             
-            return View();
+            return View(new AddMovie());
         }
 
         // Create a new movie
@@ -48,8 +48,7 @@ namespace Mission06_red328.Controllers
                 movieContext.Add(am);
                 movieContext.SaveChanges();
 
-                //return View("Confirmation", am);
-                return View("Confirmation", new AddMovie());
+                return View("Confirmation", am);
             }
             else
             {
